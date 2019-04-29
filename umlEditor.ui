@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UmlEditor</class>
+ <widget class="QMainWindow" name="UmlEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>629</width>
+    <height>839</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Editor </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>3</number>
+    </property>
+    <property name="leftMargin">
+     <number>3</number>
+    </property>
+    <property name="topMargin">
+     <number>3</number>
+    </property>
+    <property name="rightMargin">
+     <number>3</number>
+    </property>
+    <property name="bottomMargin">
+     <number>3</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QToolButton" name="btnOpen">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>&amp;Open</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnSave">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>&amp;Save</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnRename">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>&amp;Rename</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line1">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnSearch">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Searc&amp;h</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnSearchAgain">
+         <property name="text">
+          <string>Re&amp;peat</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnDraw">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>&amp;Draw</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnMain">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>&amp;Main</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPlainTextEdit" name="txtPlant">
+      <property name="cursorWidth">
+       <number>3</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="staPlantMsgs">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>btnOpen</tabstop>
+  <tabstop>btnSave</tabstop>
+  <tabstop>btnRename</tabstop>
+  <tabstop>btnDraw</tabstop>
+  <tabstop>btnMain</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

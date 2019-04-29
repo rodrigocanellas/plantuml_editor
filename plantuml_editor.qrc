@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>plant_uml.png</file>
+    </qresource>
+</RCC>

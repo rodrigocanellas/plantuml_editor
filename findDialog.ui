@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FindDialog</class>
+ <widget class="QDialog" name="FindDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>483</width>
+    <height>287</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>12</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="lblTextToFind">
+       <property name="text">
+        <string>Text to find</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="txtTextToFind"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="lblReplaceFor">
+       <property name="text">
+        <string>Replace for</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="txtReplaceFor"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QGroupBox" name="grbForwardBackward">
+       <property name="title">
+        <string>Direction</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QRadioButton" name="rdbForward">
+          <property name="text">
+           <string>&amp;Forward</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="rdbBackward">
+          <property name="text">
+           <string>&amp;Backward</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="grpSensitivitely">
+       <property name="title">
+        <string>Sensitivitely</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QRadioButton" name="rdbCase">
+          <property name="text">
+           <string>&amp;Case</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="rdbNonCase">
+          <property name="text">
+           <string>&amp;Non case</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="graOneAll">
+       <property name="title">
+        <string>Word</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QRadioButton" name="rdbPart">
+          <property name="text">
+           <string>&amp;Part</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="rdbWhole">
+          <property name="text">
+           <string>&amp;Whole</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>txtTextToFind</tabstop>
+  <tabstop>txtReplaceFor</tabstop>
+  <tabstop>rdbForward</tabstop>
+  <tabstop>rdbBackward</tabstop>
+  <tabstop>rdbCase</tabstop>
+  <tabstop>rdbNonCase</tabstop>
+  <tabstop>rdbPart</tabstop>
+  <tabstop>rdbWhole</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>FindDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>FindDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
