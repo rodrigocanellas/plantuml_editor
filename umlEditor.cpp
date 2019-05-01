@@ -85,6 +85,7 @@ UmlEditor::on_btnSave_clicked()
   }
 
   if (!m_filePath.isEmpty()) {
+    ui->btnRename->setVisible(true);
     QFile file(m_filePath);
     if (file.open(QIODevice::Text | QIODevice::WriteOnly)) {
       QTextStream stream(&file);
