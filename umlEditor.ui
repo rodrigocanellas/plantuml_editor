@@ -198,6 +198,15 @@
     </item>
     <item>
      <widget class="QPlainTextEdit" name="txtPlant">
+      <property name="plainText">
+       <string>@startuml
+
+hide empty members
+allow_mixing
+
+
+@enduml</string>
+      </property>
       <property name="cursorWidth">
        <number>3</number>
       </property>
