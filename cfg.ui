@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>706</width>
-    <height>118</height>
+    <height>139</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,39 +20,48 @@
    <iconset resource="plantuml_editor.qrc">
     <normaloff>:/plant_uml.png</normaloff>:/plant_uml.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>1</number>
+   </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="leftMargin">
-      <number>9</number>
-     </property>
-     <property name="rightMargin">
-      <number>6</number>
-     </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="btnJarPath">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="leftMargin">
+        <number>9</number>
+       </property>
+       <property name="rightMargin">
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="btnJarPath">
+         <property name="text">
+          <string>Path to planuml.jar</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="txtJarPath"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblHowToDownloadPlantUmlJar">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
-        <string>planuml.jar path</string>
+        <string>Instructions on how to download plantuml.jar can be found at http://plantuml.com/download</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QLineEdit" name="txtJarPath"/>
-     </item>
     </layout>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

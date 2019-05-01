@@ -19,6 +19,9 @@ MainWindow::MainWindow(QWidget* parent)
   ui->setupUi(this);
   m_jarPath = m_settings.value(JAR_PATH_ITEM, "").toString();
   ui->tblEditors->hideColumn(0);
+  if (m_jarPath.isEmpty()) {
+    on_btnCfg_clicked();
+  }
 }
 
 MainWindow::~MainWindow()
