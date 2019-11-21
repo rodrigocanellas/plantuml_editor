@@ -130,6 +130,18 @@
        </item>
        <item>
         <widget class="QToolButton" name="btnSearchAgain">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>25</height>
+          </size>
+         </property>
          <property name="text">
           <string>Re&amp;peat</string>
          </property>
@@ -218,7 +230,13 @@ allow_mixing
    <property name="minimumSize">
     <size>
      <width>0</width>
-     <height>35</height>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>60</height>
     </size>
    </property>
   </widget>
