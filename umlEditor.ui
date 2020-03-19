@@ -38,6 +38,12 @@
         <height>40</height>
        </size>
       </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>60</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -55,7 +61,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
+           <width>50</width>
            <height>25</height>
           </size>
          </property>
@@ -74,7 +80,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
+           <width>50</width>
            <height>25</height>
           </size>
          </property>
@@ -93,7 +99,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
+           <width>50</width>
            <height>25</height>
           </size>
          </property>
@@ -164,7 +170,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
+           <width>50</width>
            <height>25</height>
           </size>
          </property>
@@ -196,7 +202,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
+           <width>50</width>
            <height>25</height>
           </size>
          </property>
@@ -236,8 +242,11 @@ allow_mixing
    <property name="maximumSize">
     <size>
      <width>16777215</width>
-     <height>60</height>
+     <height>40</height>
     </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(249, 254, 216);</string>
    </property>
   </widget>
  </widget>

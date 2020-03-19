@@ -111,6 +111,9 @@
      <height>35</height>
     </size>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(249, 254, 216);</string>
+   </property>
   </widget>
  </widget>
  <tabstops>
