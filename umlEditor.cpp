@@ -12,15 +12,12 @@
 
 int UmlEditor::m_counter = 0;
 
-UmlEditor::UmlEditor(const QString& p_jarPath, QWidget* parent)
-  : QMainWindow(parent)
-  , ui(new Ui::UmlEditor)
-  , m_jarPath(p_jarPath)
-  , m_filePath("")
-  , m_displayer(nullptr)
-  //  , m_textChanged(false)
-  , m_id(m_counter++)
-{
+UmlEditor::UmlEditor(const QString &p_jarPath, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::UmlEditor), m_jarPath(p_jarPath),
+      m_filePath(""), m_displayer(nullptr)
+      //  , m_textChanged(false)
+      ,
+      m_id(m_counter++) {
   ui->setupUi(this);
   this->setWindowTitle("Editor - unamed");
   ui->btnRename->setVisible(false);
@@ -32,22 +29,14 @@ UmlEditor::UmlEditor(const QString& p_jarPath, QWidget* parent)
   ui->line2->setVisible(false);
 }
 
-UmlEditor::~UmlEditor()
-{
-  delete ui;
-}
+UmlEditor::~UmlEditor() { delete ui; }
 
-int
-UmlEditor::getId() const
-{
-  return m_id;
-}
+int UmlEditor::getId() const { return m_id; }
 
-void
-UmlEditor::on_btnOpen_clicked()
-{
-  m_filePath = QFileDialog::getOpenFileName(
-    this, tr("Choose file to open"), "./", tr("PlanutUML Files (*.plantuml)"));
+void UmlEditor::on_btnOpen_clicked() {
+  m_filePath =
+      QFileDialog::getOpenFileName(this, tr("Choose file to open"), "./",
+                                   tr("PlanutUML Files (*.plantuml)"));
 
   QFile file(m_filePath);
   file.open(QFile::ReadOnly | QFile::Text);
@@ -73,15 +62,11 @@ UmlEditor::on_btnOpen_clicked()
   //  m_textChanged = true;
 }
 
-void
-UmlEditor::on_btnSave_clicked()
-{
+void UmlEditor::on_btnSave_clicked() {
   if (m_filePath.isEmpty()) {
     m_filePath =
-      QFileDialog::getSaveFileName(this,
-                                   tr("Enter new file name"),
-                                   "./",
-                                   tr("PlanutUML Files (*.plantuml)"));
+        QFileDialog::getSaveFileName(this, tr("Enter new file name"), "./",
+                                     tr("PlanutUML Files (*.plantuml)"));
   }
 
   if (!m_filePath.isEmpty()) {
@@ -99,9 +84,7 @@ UmlEditor::on_btnSave_clicked()
   }
 }
 
-void
-UmlEditor::on_btnDraw_clicked()
-{
+void UmlEditor::on_btnDraw_clicked() {
   if (ui->txtPlant->document()->isEmpty()) {
     return;
   }
@@ -112,7 +95,7 @@ UmlEditor::on_btnDraw_clicked()
   if (m_displayer != nullptr) {
 
     m_displayer->setWindowState(
-      (m_displayer->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+        (m_displayer->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
     m_displayer->raise();
     m_displayer->activateWindow();
     m_displayer->show();
@@ -120,6 +103,8 @@ UmlEditor::on_btnDraw_clicked()
     //    if (m_textChanged) {
     if (m_filePath.isEmpty()) {
       m_filePath = std::tmpnam(nullptr);
+      //      char tmp_file[] = "/tmp/plantuml_XXXXXX";
+      //      m_filePath = mkstemp(tmp_file);
       ui->btnRename->setVisible(true);
     }
     on_btnSave_clicked();
@@ -129,9 +114,7 @@ UmlEditor::on_btnDraw_clicked()
   //  }
 }
 
-void
-UmlEditor::on_txtPlant_textChanged()
-{
+void UmlEditor::on_txtPlant_textChanged() {
   ui->btnSave->setVisible(true);
   ui->line1->setVisible(true);
 
@@ -146,9 +129,7 @@ UmlEditor::on_txtPlant_textChanged()
   }
 }
 
-void
-UmlEditor::closeEvent(QCloseEvent* event)
-{
+void UmlEditor::closeEvent(QCloseEvent *event) {
 
   if (m_displayer != nullptr) {
     m_displayer->close();
@@ -158,16 +139,10 @@ UmlEditor::closeEvent(QCloseEvent* event)
   event->accept();
 }
 
-void
-UmlEditor::showEvent(QShowEvent*)
-{
-  ui->txtPlant->setFocus();
-}
+void UmlEditor::showEvent(QShowEvent *) { ui->txtPlant->setFocus(); }
 
-void
-UmlEditor::on_btnMain_clicked()
-{
-  QWidget* parent = this->parentWidget();
+void UmlEditor::on_btnMain_clicked() {
+  QWidget *parent = this->parentWidget();
   if (parent != nullptr) {
     ui->btnMain->setFocus();
     parent->setWindowState((parent->windowState() & ~Qt::WindowMinimized) |
@@ -180,15 +155,11 @@ UmlEditor::on_btnMain_clicked()
   }
 }
 
-void
-UmlEditor::on_btnRename_clicked()
-{
+void UmlEditor::on_btnRename_clicked() {
   if (!m_filePath.isEmpty()) {
     m_filePath =
-      QFileDialog::getSaveFileName(this,
-                                   tr("Enter new file name"),
-                                   "./",
-                                   tr("PlanutUML Files (*.plantuml)"));
+        QFileDialog::getSaveFileName(this, tr("Enter new file name"), "./",
+                                     tr("PlanutUML Files (*.plantuml)"));
   }
 
   if (!m_filePath.isEmpty()) {
@@ -205,9 +176,7 @@ UmlEditor::on_btnRename_clicked()
   }
 }
 
-void
-UmlEditor::on_btnSearch_clicked()
-{
+void UmlEditor::on_btnSearch_clicked() {
   if (m_findDialog == nullptr) {
     m_findDialog = new FindDialog(this);
   }
@@ -239,13 +208,11 @@ UmlEditor::on_btnSearch_clicked()
   }
 }
 
-void
-UmlEditor::on_btnSearchAgain_clicked()
-{
+void UmlEditor::on_btnSearchAgain_clicked() {
   QTextCursor textFound;
 
   textFound = ui->txtPlant->document()->find(
-    m_textToFind, ui->txtPlant->textCursor(), m_findFlags);
+      m_textToFind, ui->txtPlant->textCursor(), m_findFlags);
 
   if (!textFound.isNull()) {
     ui->txtPlant->setTextCursor(textFound);
