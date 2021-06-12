@@ -28,7 +28,8 @@ HEADERS += \
     $$src_code_dir/umlEditor.h \
     $$src_code_dir/umlDisplayer.h \
     $$src_code_dir/cfg.h \
-    $$src_code_dir/mainWindow.h
+    $$src_code_dir/mainWindow.h \
+    ../../src/events.h
 
 FORMS += \
     $$src_code_dir/findDialog.ui \

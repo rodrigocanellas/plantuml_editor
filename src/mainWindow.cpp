@@ -1,88 +1,89 @@
 #include "mainWindow.h"
 #include "ui_mainwindow.h"
 
+#include <chrono>
+
 #include <QListWidgetItem>
 #include <QString>
 #include <QVariant>
 
-#define COMPANY "Stone"
+#include "events.h"
+#include <tenacitas.lib/async.h>
+#include <tenacitas.lib/logger.h>
+#include <tenacitas.lib/type.h>
+
+using namespace std::chrono_literals;
+using namespace tenacitas;
+using namespace tenacitas::plantuml_editor;
+
+#define COMPANY "tenacitas"
 #define APP "PlantUML Editor"
 #define JAR_PATH_ITEM "jarPath"
 
-MainWindow::MainWindow(QWidget* parent)
-  : QMainWindow(parent)
-  , ui(new Ui::MainWindow)
-  , m_jarPath("")
-  , m_settings(COMPANY, APP)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), m_jarPath(""),
+      m_settings(COMPANY, APP)
 
 {
+  logger::set_debug_level();
   ui->setupUi(this);
   m_jarPath = m_settings.value(JAR_PATH_ITEM, "").toString();
   ui->tblEditors->hideColumn(0);
   if (m_jarPath.isEmpty()) {
     on_btnCfg_clicked();
   }
+
+  async::add_handler<evt::jar_path_set>(
+      [this](type::ptr<bool>, evt::jar_path_set &&p_evt) -> void {
+        DEB("jar path = ", p_evt);
+        m_jarPath = QString(p_evt.value.c_str());
+        m_settings.setValue(JAR_PATH_ITEM, m_jarPath);
+      },
+      1s);
 }
 
-MainWindow::~MainWindow()
-{
-  delete ui;
-}
+MainWindow::~MainWindow() { delete ui; }
 
-void
-MainWindow::on_btnCfg_clicked()
-{
+void MainWindow::on_btnCfg_clicked() {
   if (m_cfg == nullptr) {
     m_cfg = new Cfg(m_jarPath, this);
-    QObject::connect(m_cfg,
-                     SIGNAL(jarPath_set(const QString&)),
-                     this,
-                     SLOT(on_jarPath_set(const QString&)));
+    QObject::connect(m_cfg, SIGNAL(jarPath_set(const QString &)), this,
+                     SLOT(on_jarPath_set(const QString &)));
   }
   m_cfg->open();
 }
 
-void
-MainWindow::on_jarPath_set(const QString& p_jarPath)
-{
-  m_jarPath = p_jarPath;
+// void MainWindow::on_jarPath_set(const QString &p_jarPath) {
+//  m_jarPath = p_jarPath;
 
-  m_settings.setValue(JAR_PATH_ITEM, m_jarPath);
-}
+//  m_settings.setValue(JAR_PATH_ITEM, m_jarPath);
+//}
 
-void
-MainWindow::on_btnEdit_clicked()
-{
-  UmlEditor* editor = new UmlEditor(m_jarPath, this);
+void MainWindow::on_btnEdit_clicked() {
+  UmlEditor *editor = new UmlEditor(m_jarPath, this);
 
-  QObject::connect(editor,
-                   SIGNAL(title_changed(int, const QString&)),
-                   this,
-                   SLOT(on_title_changed(int, const QString&)));
+  QObject::connect(editor, SIGNAL(title_changed(int, const QString &)), this,
+                   SLOT(on_title_changed(int, const QString &)));
 
-  QObject::connect(
-    editor, SIGNAL(editor_closed(int)), this, SLOT(on_editor_closed(int)));
+  QObject::connect(editor, SIGNAL(editor_closed(int)), this,
+                   SLOT(on_editor_closed(int)));
 
   m_editors.push_back(editor);
 
   ui->tblEditors->insertRow(ui->tblEditors->rowCount());
   ui->tblEditors->setItem(
-    ui->tblEditors->rowCount() - 1,
-    0,
-    new QTableWidgetItem(QString::number(editor->getId())));
-  ui->tblEditors->setItem(ui->tblEditors->rowCount() - 1,
-                          1,
+      ui->tblEditors->rowCount() - 1, 0,
+      new QTableWidgetItem(QString::number(editor->getId())));
+  ui->tblEditors->setItem(ui->tblEditors->rowCount() - 1, 1,
                           new QTableWidgetItem(editor->windowTitle()));
 
   editor->show();
 }
 
-void
-MainWindow::on_tblEditors_cellDoubleClicked(int row, int /*column*/)
-{
+void MainWindow::on_tblEditors_cellDoubleClicked(int row, int /*column*/) {
   QString idStr = ui->tblEditors->item(row, 0)->text();
   int id = idStr.toInt();
-  UmlEditor* editor = find(id);
+  UmlEditor *editor = find(id);
   if (editor != nullptr) {
     //    this->lower();
     editor->setWindowState((editor->windowState() & ~Qt::WindowMinimized) |
@@ -95,9 +96,7 @@ MainWindow::on_tblEditors_cellDoubleClicked(int row, int /*column*/)
   }
 }
 
-void
-MainWindow::on_title_changed(int p_id, const QString& p_title)
-{
+void MainWindow::on_title_changed(int p_id, const QString &p_title) {
   int rowCount = ui->tblEditors->rowCount();
   for (int row = 0; row < rowCount; ++row) {
     QString idStr = ui->tblEditors->item(row, 0)->text();
@@ -108,9 +107,7 @@ MainWindow::on_title_changed(int p_id, const QString& p_title)
   }
 }
 
-void
-MainWindow::on_editor_closed(int p_id)
-{
+void MainWindow::on_editor_closed(int p_id) {
   int rowCount = ui->tblEditors->rowCount();
   for (int row = 0; row < rowCount; ++row) {
     QString idStr = ui->tblEditors->item(row, 0)->text();
@@ -121,10 +118,8 @@ MainWindow::on_editor_closed(int p_id)
   }
 }
 
-UmlEditor*
-MainWindow::find(int id)
-{
-  for (UmlEditor* editor : m_editors) {
+UmlEditor *MainWindow::find(int id) {
+  for (UmlEditor *editor : m_editors) {
     if (editor->getId() == id) {
       return editor;
     }
@@ -132,15 +127,11 @@ MainWindow::find(int id)
   return nullptr;
 }
 
-void
-MainWindow::on_tblEditors_itemChanged(QTableWidgetItem*)
-{
+void MainWindow::on_tblEditors_itemChanged(QTableWidgetItem *) {
   ui->tblEditors->setColumnWidth(1, ui->tblEditors->width() - 20);
 }
 
-void
-MainWindow::keyPressEvent(QKeyEvent* p_ev)
-{
+void MainWindow::keyPressEvent(QKeyEvent *p_ev) {
   //    setText("You Pressed Key " + ev->text());
   if ((p_ev->key() == Qt::Key_E) &&
       (QGuiApplication::queryKeyboardModifiers() == Qt::ControlModifier)) {
@@ -151,8 +142,4 @@ MainWindow::keyPressEvent(QKeyEvent* p_ev)
   }
 }
 
-void
-MainWindow::showEvent(QShowEvent*)
-{
-  ui->tblEditors->setFocus();
-}
+void MainWindow::showEvent(QShowEvent *) { ui->tblEditors->setFocus(); }

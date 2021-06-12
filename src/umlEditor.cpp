@@ -2,6 +2,7 @@
 #include "ui_umlEditor.h"
 
 #include <cstdio>
+#include <type_traits>
 
 #include <QFile>
 #include <QFileDialog>
@@ -9,6 +10,10 @@
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QTextStream>
+
+#include <tenacitas.lib/number.h>
+
+using namespace tenacitas;
 
 int UmlEditor::m_counter = 0;
 
@@ -102,9 +107,11 @@ void UmlEditor::on_btnDraw_clicked() {
 
     //    if (m_textChanged) {
     if (m_filePath.isEmpty()) {
-      m_filePath = std::tmpnam(nullptr);
+      //      m_filePath = std::tmpnam(nullptr);
       //      char tmp_file[] = "/tmp/plantuml_XXXXXX";
-      //      m_filePath = mkstemp(tmp_file);
+
+      m_filePath =
+          mkstemp(std::remove_const_t<char *>(number::id().str().c_str()));
       ui->btnRename->setVisible(true);
     }
     on_btnSave_clicked();

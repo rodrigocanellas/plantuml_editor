@@ -17,7 +17,7 @@
    <string>Configuration</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="plantuml_editor.qrc">
+   <iconset>
     <normaloff>:/plant_uml.png</normaloff>:/plant_uml.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -75,9 +75,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="plantuml_editor.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

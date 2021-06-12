@@ -20,7 +20,7 @@
    <string>PlantUML Editor</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="plantuml_editor.qrc">
+   <iconset>
     <normaloff>:/plant_uml.png</normaloff>:/plant_uml.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -118,8 +118,6 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="plantuml_editor.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
