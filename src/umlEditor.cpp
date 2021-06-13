@@ -11,20 +11,30 @@
 #include <QTextDocument>
 #include <QTextStream>
 
+#include "events.h"
+#include <tenacitas.lib/async.h>
 #include <tenacitas.lib/number.h>
 
 using namespace tenacitas;
+using namespace tenacitas::plantuml_editor;
 
 int UmlEditor::m_counter = 0;
 
+inline std::string tmp_file() {
+  std::string _file_name{"tmp" + number::id().str() + ".plantuml"};
+  mkstemp(std::remove_const_t<char *>(_file_name.c_str()));
+  return _file_name;
+}
+
 UmlEditor::UmlEditor(const QString &p_jarPath, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::UmlEditor), m_jarPath(p_jarPath),
-      m_filePath(""), m_displayer(nullptr)
+      m_filePath(tmp_file().c_str()), m_displayer(nullptr)
       //  , m_textChanged(false)
       ,
       m_id(m_counter++) {
   ui->setupUi(this);
-  this->setWindowTitle("Editor - unamed");
+  this->setWindowTitle("Editor - " + m_filePath);
+  async::dispatch(evt::title_changed{m_id, m_filePath.toStdString()});
   ui->btnRename->setVisible(false);
   ui->btnSearch->setVisible(false);
   ui->btnDraw->setVisible(false);
@@ -42,6 +52,7 @@ void UmlEditor::on_btnOpen_clicked() {
   m_filePath =
       QFileDialog::getOpenFileName(this, tr("Choose file to open"), "./",
                                    tr("PlanutUML Files (*.plantuml)"));
+  async::dispatch(evt::title_changed{m_id, m_filePath.toStdString()});
 
   QFile file(m_filePath);
   file.open(QFile::ReadOnly | QFile::Text);
@@ -63,7 +74,8 @@ void UmlEditor::on_btnOpen_clicked() {
   ui->line1->setVisible(false);
   ui->line2->setVisible(false);
 
-  emit title_changed(m_id, this->windowTitle());
+  //  emit title_changed(m_id, this->windowTitle());
+  async::dispatch(evt::title_changed{m_id, m_filePath.toStdString()});
   //  m_textChanged = true;
 }
 
@@ -75,6 +87,7 @@ void UmlEditor::on_btnSave_clicked() {
   }
 
   if (!m_filePath.isEmpty()) {
+    async::dispatch(evt::title_changed{m_id, m_filePath.toStdString()});
     ui->btnRename->setVisible(true);
     QFile file(m_filePath);
     if (file.open(QIODevice::Text | QIODevice::WriteOnly)) {
@@ -84,7 +97,7 @@ void UmlEditor::on_btnSave_clicked() {
       file.close();
     }
     this->setWindowTitle("Editor - " + m_filePath);
-    emit title_changed(m_id, this->windowTitle());
+    //    emit title_changed(m_id, this->windowTitle());
     //    m_textChanged = true;
   }
 }
@@ -110,8 +123,9 @@ void UmlEditor::on_btnDraw_clicked() {
       //      m_filePath = std::tmpnam(nullptr);
       //      char tmp_file[] = "/tmp/plantuml_XXXXXX";
 
-      m_filePath =
-          mkstemp(std::remove_const_t<char *>(number::id().str().c_str()));
+      m_filePath = tmp_file().c_str();
+
+      async::dispatch(evt::title_changed{m_id, m_filePath.toStdString()});
       ui->btnRename->setVisible(true);
     }
     on_btnSave_clicked();
@@ -142,7 +156,8 @@ void UmlEditor::closeEvent(QCloseEvent *event) {
     m_displayer->close();
   }
   on_btnSave_clicked();
-  emit editor_closed(m_id);
+  //  emit editor_closed(m_id);
+  async::dispatch(evt::editor_closed{m_id});
   event->accept();
 }
 
@@ -167,6 +182,7 @@ void UmlEditor::on_btnRename_clicked() {
     m_filePath =
         QFileDialog::getSaveFileName(this, tr("Enter new file name"), "./",
                                      tr("PlanutUML Files (*.plantuml)"));
+    async::dispatch(evt::title_changed{m_id, m_filePath.toStdString()});
   }
 
   if (!m_filePath.isEmpty()) {
@@ -178,7 +194,9 @@ void UmlEditor::on_btnRename_clicked() {
       file.close();
     }
     this->setWindowTitle("Editor - " + m_filePath);
-    emit title_changed(m_id, this->windowTitle());
+    //    emit title_changed(m_id, this->windowTitle());
+    async::dispatch(evt::title_changed{m_id, m_filePath.toStdString()});
+
     //    m_textChanged = true;
   }
 }

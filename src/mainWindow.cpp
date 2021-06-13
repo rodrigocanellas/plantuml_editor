@@ -33,11 +33,40 @@ MainWindow::MainWindow(QWidget *parent)
     on_btnCfg_clicked();
   }
 
+  // defining handlers for the events
   async::add_handler<evt::jar_path_set>(
       [this](type::ptr<bool>, evt::jar_path_set &&p_evt) -> void {
-        DEB("jar path = ", p_evt);
+        DEB("jar_path_set = ", p_evt);
         m_jarPath = QString(p_evt.value.c_str());
         m_settings.setValue(JAR_PATH_ITEM, m_jarPath);
+      },
+      1s);
+
+  async::add_handler<evt::title_changed>(
+      [this](type::ptr<bool>, evt::title_changed &&p_evt) -> void {
+        DEB("title_changed = ", p_evt);
+        int rowCount = ui->tblEditors->rowCount();
+        for (int row = 0; row < rowCount; ++row) {
+          QString idStr = ui->tblEditors->item(row, 0)->text();
+          int id = idStr.toInt();
+          if (id == p_evt.id) {
+            ui->tblEditors->item(row, 1)->setText(p_evt.title.c_str());
+          }
+        }
+      },
+      1s);
+
+  async::add_handler<evt::editor_closed>(
+      [this](type::ptr<bool>, evt::editor_closed &&p_evt) -> void {
+        DEB("editor_closed  = ", p_evt);
+        int rowCount = ui->tblEditors->rowCount();
+        for (int row = 0; row < rowCount; ++row) {
+          QString idStr = ui->tblEditors->item(row, 0)->text();
+          int id = idStr.toInt();
+          if (id == p_evt.id) {
+            ui->tblEditors->removeRow(row);
+          }
+        }
       },
       1s);
 }
@@ -47,26 +76,12 @@ MainWindow::~MainWindow() { delete ui; }
 void MainWindow::on_btnCfg_clicked() {
   if (m_cfg == nullptr) {
     m_cfg = new Cfg(m_jarPath, this);
-    QObject::connect(m_cfg, SIGNAL(jarPath_set(const QString &)), this,
-                     SLOT(on_jarPath_set(const QString &)));
   }
   m_cfg->open();
 }
 
-// void MainWindow::on_jarPath_set(const QString &p_jarPath) {
-//  m_jarPath = p_jarPath;
-
-//  m_settings.setValue(JAR_PATH_ITEM, m_jarPath);
-//}
-
 void MainWindow::on_btnEdit_clicked() {
   UmlEditor *editor = new UmlEditor(m_jarPath, this);
-
-  QObject::connect(editor, SIGNAL(title_changed(int, const QString &)), this,
-                   SLOT(on_title_changed(int, const QString &)));
-
-  QObject::connect(editor, SIGNAL(editor_closed(int)), this,
-                   SLOT(on_editor_closed(int)));
 
   m_editors.push_back(editor);
 
@@ -96,32 +111,11 @@ void MainWindow::on_tblEditors_cellDoubleClicked(int row, int /*column*/) {
   }
 }
 
-void MainWindow::on_title_changed(int p_id, const QString &p_title) {
-  int rowCount = ui->tblEditors->rowCount();
-  for (int row = 0; row < rowCount; ++row) {
-    QString idStr = ui->tblEditors->item(row, 0)->text();
-    int id = idStr.toInt();
-    if (id == p_id) {
-      ui->tblEditors->item(row, 1)->setText(p_title);
-    }
-  }
-}
-
-void MainWindow::on_editor_closed(int p_id) {
-  int rowCount = ui->tblEditors->rowCount();
-  for (int row = 0; row < rowCount; ++row) {
-    QString idStr = ui->tblEditors->item(row, 0)->text();
-    int id = idStr.toInt();
-    if (id == p_id) {
-      ui->tblEditors->removeRow(row);
-    }
-  }
-}
-
 UmlEditor *MainWindow::find(int id) {
-  for (UmlEditor *editor : m_editors) {
-    if (editor->getId() == id) {
-      return editor;
+  for (QList<UmlEditor *>::iterator _ite = m_editors.begin();
+       _ite != m_editors.end(); ++_ite) {
+    if ((*_ite)->getId() == id) {
+      return *_ite;
     }
   }
   return nullptr;

@@ -33,9 +33,9 @@ private slots:
 
   void on_tblEditors_cellDoubleClicked(int row, int column);
 
-  void on_title_changed(int p_id, const QString &p_title);
+  //  void on_title_changed(int p_id, const QString &p_title);
 
-  void on_editor_closed(int p_id);
+  //  void on_editor_closed(int p_id);
 
   void on_tblEditors_itemChanged(QTableWidgetItem *item);
 
