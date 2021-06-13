@@ -13,19 +13,18 @@ namespace Ui {
 class UmlEditor;
 }
 
-class UmlEditor : public QMainWindow
-{
+class UmlEditor : public QMainWindow {
   Q_OBJECT
 
 public:
-  explicit UmlEditor(const QString& p_jarPath, QWidget* parent = nullptr);
+  explicit UmlEditor(const QString &p_jarPath, QWidget *parent = nullptr);
   ~UmlEditor();
 
   int getId() const;
 
-  void closeEvent(QCloseEvent* event) override;
+  void closeEvent(QCloseEvent *event) override;
 
-  void showEvent(QShowEvent* ev) override;
+  void showEvent(QShowEvent *ev) override;
 
 private slots:
   void on_btnOpen_clicked();
@@ -45,24 +44,24 @@ private slots:
   void on_btnSearchAgain_clicked();
 
 signals:
-  void title_changed(int id, const QString& p_title);
+  //  void title_changed(int id, const QString& p_title);
 
   void editor_closed(int id);
 
 private:
-  Ui::UmlEditor* ui;
+  Ui::UmlEditor *ui;
 
   QString m_jarPath;
 
   QString m_filePath;
 
-  UmlDisplayer* m_displayer;
+  UmlDisplayer *m_displayer;
 
   //  bool m_textChanged;
 
   int m_id;
 
-  FindDialog* m_findDialog = nullptr;
+  FindDialog *m_findDialog = nullptr;
 
   QTextDocument::FindFlags m_findFlags;
 
