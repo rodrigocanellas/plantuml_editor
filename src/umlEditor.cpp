@@ -22,7 +22,9 @@ int UmlEditor::m_counter = 0;
 
 inline std::string tmp_file() {
   std::string _file_name{"tmp" + number::id().str() + ".plantuml"};
-  mkstemp(std::remove_const_t<char *>(_file_name.c_str()));
+  if (mkstemp(std::remove_const_t<char *>(_file_name.c_str()))) {
+    return "";
+  }
   return _file_name;
 }
 
